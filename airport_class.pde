@@ -1,5 +1,4 @@
-// Airport Class written by Liam Mc 10/03/26 2:25pm
-// Improvents made to defensive code by Liam Mc 12/03/26 8:30am
+
 class Airport
 {
   String code;
