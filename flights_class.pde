@@ -1,5 +1,4 @@
 
-// Wrote flight class - China Lynch 10/3/26 2:30pm
 class Flights  
 {
   String date;
@@ -20,7 +19,7 @@ String destination;
 String flightNum;
 
  
-  Flights(String airline, int status, String date, int depTime, int schDepTime, int arrTime, String origin, String destination, String flightNum) // new variables added  for display and filters - Nora Holden 25/03/2026
+  Flights(String airline, int status, String date, int depTime, int schDepTime, int arrTime, String origin, String destination, String flightNum) // new variables added  for display and filters 
   {
     this.status = status;
     this.date = date;
@@ -32,7 +31,7 @@ String flightNum;
     this.destination = destination;
     this.flightNum = flightNum;
     
-    //Fix date filter - China Lynch 31/03/2026
+    //Fix date filter 
     dateOnly = date.split(" ")[0]; // remove extras
     try {
       String[] parts = split(dateOnly, '/'); 
@@ -45,14 +44,14 @@ String flightNum;
     }
   }
   
-  // Checks if flight is in range of dates user gives - China Lynch 18/4/26
+  // Checks if flight is in range of dates user gives 
   // Date in form YYYYMMDD
   boolean inRange(int start, int end) 
   {
     return (dateInt >= start && dateInt <= end);
   }
   
-  // Updated booleans to be boolean functions - China Lynch 10/3/26 7pm
+  // Updated booleans to be boolean functions
   boolean cancelled()
   {
   if (status == 1)
@@ -64,7 +63,7 @@ String flightNum;
     }
   }
 
-  // Fixed late logic for visualisations - China Lynch 18/3/26 8pm
+  // Fixed late logic for visualisations 
   boolean late()
   {
     return (depTime > schDepTime);
@@ -73,7 +72,7 @@ String flightNum;
  
 
 
-String airlineName() //Nora Holden
+String airlineName()
   {
      if( airline.equals("AA"))
     {
@@ -102,7 +101,7 @@ String airlineName() //Nora Holden
     }
     else if( airline.equals("G4"))
     {
-      return airlineName = "Allegiant Air"; //Added missing airlines - Alena 01/04/2026 
+      return airlineName = "Allegiant Air"; 
     }
     else if( airline.equals("F9"))
     {
@@ -124,7 +123,7 @@ String airlineName() //Nora Holden
     
   }
   
-color airlineColour() //Nora Holden
+color airlineColour()
 {
   if (airline.equals("AA"))
   {
@@ -146,7 +145,7 @@ color airlineColour() //Nora Holden
   {
     return airlineColor = color(210, 210, 120);
   } 
-  else if (airline.equals("G4"))    //Added missing airlines - Alena 01/04/2026 
+  else if (airline.equals("G4"))    
   {
     return airlineColor = color(170, 173, 64);
   }
@@ -169,8 +168,7 @@ color airlineColour() //Nora Holden
 }
 
   
-  // Draws flight visualizations 16/03/2026 - Nora Holden
-  // Updated draw method to display flight status - China Lynch 18/3/26 8:11pm
+  // Draws flight visualizations 
   void drawFlightBox(int x,int y, int a , int b)
   {
     int hours = depTime / 100;
@@ -178,7 +176,7 @@ color airlineColour() //Nora Holden
     
     int aHours = arrTime / 100;
     int aMins = arrTime % 100;
-    int lengthH = abs(aHours  - hours); // updated logic to fix calculation error , was showing times not possible e.g. 17:92 - Nora Holden 01/04/2026
+    int lengthH = abs(aHours  - hours); 
     int lengthM = abs(aMins - minutes);
     //int lHours = length / 100;
     //int lMinutes = length % 100;
@@ -188,7 +186,7 @@ color airlineColour() //Nora Holden
     airlineName = airlineName();
     
       
-    //updates to code to show locations - Nora Holden 22/03/2026
+    //updates to code to show locations 
     //stroke(0);
     fill(177, 178, 179);
     rect(x, y, z - 40, w);//10,10,10,10
@@ -213,7 +211,7 @@ color airlineColour() //Nora Holden
     }
     else{
     text(aMins, a + 430, b ); }
-     if (cancelled())  // updated to show differnce if cancelled - Nora Holden 01/04/2026
+     if (cancelled())  // updated to show differnce if cancelled 
     {
       text ( "----", a + 560, b - 20);
     }
@@ -225,7 +223,7 @@ color airlineColour() //Nora Holden
       else{
     text(lengthH, a + 550, b - 20); }
     text( ":", a+ 560, b - 20 );
-    if(lengthM < 10) // fixed logic so if the flight is less than ten minutes it appears in the correct form e.g. 10:07 not 10: 7 - Nora Holden 01/04/2026
+    if(lengthM < 10) 
     {
       text("0" + lengthM, a + 575, b - 20);
     }
@@ -236,9 +234,9 @@ color airlineColour() //Nora Holden
     text("h", a + 590, b - 20);
     rect( a +345, b - 1, a -50, 2);
 
-   // Fixed colour setting loops to work with functions - China Lynch 11/3/26 9pm
+   // Fixed colour setting loops to work with functions 
    
-   // Rotate text - Nora Holden 18/03/2026
+   // Rotate text
     if (late())
     {
      statusCol = color(#FFA30D); // orange
