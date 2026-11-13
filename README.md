@@ -1,2 +1,5 @@
-# Java-Data-Visualisation
-A Java application developed using Processing to read, process and visualise data through an interactive graphical user interface.
+# Nora Holden
+# Alena Aine Serondo
+# Alyx Harmon
+# China Lynch
+# Liam McManus
