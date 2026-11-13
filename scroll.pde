@@ -1,4 +1,3 @@
-// Alena 16.03.26
 
 class HScrollbar {
   int swidth, sheight;     // width and height of the scrollbar track
