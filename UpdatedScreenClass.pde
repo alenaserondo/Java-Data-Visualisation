@@ -103,7 +103,7 @@ class FlightScreen extends Screen
     fill(red(bgColor)-40, green(bgColor)-40, blue(bgColor)-40);
     rect(0,0, width, 110);
     
-    //airport filter display - Nora Holden 24/03/2026
+    //airport filter display 
     fill(0);
     textSize(20);
     text("Filter search by:", 400, 140);
@@ -150,7 +150,6 @@ class DateFilterScreen extends Screen - 26/3
   }
 }
   
-
 
 
 ////////////////////////////////////////////////////////
