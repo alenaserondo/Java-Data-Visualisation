@@ -2,11 +2,10 @@ import java.util.HashSet;
 import controlP5.*;
 import java.util.*;
 
-// Wrote flight class - China Lynch 10/3/26 2:30pm
-// Created 2 search bars for dates - China
+
 ArrayList<Flights> filtered = new ArrayList<Flights>();
 ArrayList<String> flightsDisplay = new ArrayList<String>();   // dropdown display
-ArrayList<Flights> filteredFlights = new ArrayList<Flights>(); // Alyx Harmon - 25/4
+ArrayList<Flights> filteredFlights = new ArrayList<Flights>(); 
 
 String startDateText = "";
 String endDateText = "";
@@ -20,7 +19,7 @@ int sx = 60, sy = 180, sw = 200, sh = 30;
 int ex = 300;
 int ey = 180;
 
-//airport filter search box pos - Nora Holden
+//airport filter search box pos
 int ax = 50;
 int ay = 170;
 int aw = 210;
@@ -28,45 +27,44 @@ int ah = 50;
 
 ArrayList<Flights> listToShow;
 
-String selectedFlightNum = ""; //Alena filter - 23.03.26
+String selectedFlightNum = ""; 
 HashMap<String, ArrayList<Airline>> flightsByAirline = new HashMap<String, ArrayList<Airline>>();
-DropdownList airlineDDL;// Alena filter - 23.03.26
-DropdownList flightDDL;// Alena filter - 23.03.26
+DropdownList airlineDDL;
+DropdownList flightDDL;
 ArrayList<Flights> filteredAirline = new ArrayList<Flights>();
-ArrayList<String> airlineCodes = new ArrayList<String>(); // Alena filter - 23.03.26
+ArrayList<String> airlineCodes = new ArrayList<String>();
 
-// creates dropdown list with no selected option - alyx - 25/4
+// creates dropdown list with no selected option 
 ControlP5 cp5;
 DropdownList statusDDL;
 
 int selectedStatus = -1; 
 
-//data reading - Nora Holden 10/03/2026 2:25pm
+//data reading 
 ArrayList<Flights> flights = new ArrayList<Flights>(); //creates an empty arraylist
-ArrayList<Flights> airportFilter = new ArrayList<Flights>(); // 25/03/2026 17:25 Nora Holden
+ArrayList<Flights> airportFilter = new ArrayList<Flights>();
 ArrayList<Airport> airport = new ArrayList<Airport>();
 ArrayList<Airline> airline = new ArrayList<Airline>();
 Table data;
-//Screens - Alyx Harmon - 10/3
+//Screens 
 ArrayList<Screen> screens;
 Screen currentScreen;
 //date
 PImage homescreenIcon;
 
-
-//Alena - Scroll Logic 18.03.26
+// Scroll logic
 HScrollbar hs;
 int visibleFlights = 3;
 boolean firstMousePress = false;
 
 
 
-//Heatmap - Liam McManus 18/03/2025 9:40pm
+//Heatmap 
 HashMap<String, Integer> stateCount = new HashMap<String, Integer>();
 HashMap<String, PVector> statePositions = new HashMap<String, PVector>();
 HashSet<String> seenAirports = new HashSet<String>(); //hashSet like an array but doesn't allow duplicate values
 PImage usaMap;
-//heatmap interactive features added - Liam 25.03.2026 9pm
+//heatmap interactive features added 
 String hoveredState = "";
 String selectedState = "";
 int minAirports = 0;
@@ -76,7 +74,7 @@ void setup()
 {
   size(800, 600);
 
-  //drop down menu for status - Alyx Harmon 25/03/2026
+  //drop down menu for status 
   cp5 = new ControlP5(this);
   statusDDL = cp5.addDropdownList("Status Filter")
     .setPosition(310, 170)
@@ -101,8 +99,8 @@ void setup()
 
   hs = new HScrollbar(width - 30, 170, 16, 400, 10);
 
-  //data reading - Nora Holden 10/03/2026 2:25pm
-  // new variables added  for display and filters - Nora Holden 25/03/2026
+  //data reading 
+  // new variables added  for display and filters 
   data = loadTable("flights2k.csv", "header");
 
   for (TableRow row : data.rows())
@@ -110,7 +108,7 @@ void setup()
     String origin = row.getString("ORIGIN"); //uses csv header names to find the specific data
     int depTime = row.getInt("DEP_TIME");
     String date = row.getString("FL_DATE");
-    date = date.split(" ")[0]; // Fixed input so the 00:00 was cut out - Alyx Harmon 01/04/2026
+    date = date.split(" ")[0]; 
     String airline= row.getString("MKT_CARRIER");
     int schDepTime = row.getInt("CRS_DEP_TIME");
     int arrTime = row.getInt("ARR_TIME");
@@ -130,7 +128,7 @@ void setup()
     String state= row.getString("ORIGIN_STATE_ABR");
     int wac = row.getInt("ORIGIN_WAC");
 
-    //loop modified so each airport is only counted once - Liam Mc 18/03/25 21:40pm
+    //loop modified so each airport is only counted once
     if (!seenAirports.contains(code))
     {
       Airport airports = new Airport(code, city, state, wac ); // creates an object of each airport using the data from the row
@@ -139,7 +137,7 @@ void setup()
     }
   }
 
-  // count number of airports per state loop - Liam 18/03/25 10pm
+  // count number of airports per state loop
   for (Airport a : airport)
   {
     String state = a.state;
@@ -157,7 +155,6 @@ void setup()
 
   usaMap = loadImage("usaMap3.png");
 
-  //more reading added 9:34am - Nora Holden
   for (TableRow row : data.rows())
   {
     String flightNum = row.getString("MKT_CARRIER"); //uses csv header names to find the specific data
@@ -169,9 +166,7 @@ void setup()
     airline.add(airlines); //adds the object to the arraylist
   }
 
-  //Screens - Alyx Harmon - 10/3
-  // updated 16/03/2026
-  // updated & new screen added 26/3
+  //Screens 
   screens = new ArrayList<Screen>();
 
   // homescreen (0)
@@ -196,7 +191,6 @@ void setup()
   flightsScreen.addWidget(new Button(550, 30, 200, 50, "Filter By Date"));
 
   // filter by date screen (3)
-  // added new screen 26/03/2026 - Alyx Harmon
 
   Screen dateFilterScreen = new DateFilterScreen(color(180, 225, 255));
   dateFilterScreen.addWidget(new Button(50, 30, 200, 50, "Back to Home"));
@@ -212,7 +206,7 @@ void setup()
 
 
 
-  //demonstration of data that has been read in (to consol) - Nora Holden 10/03/2026 2:25pm
+  //demonstration of data that has been read in (to consol) 
 
   for (Flights flight : flights) //loops through the objects
   {
@@ -231,11 +225,10 @@ void setup()
     println("airline data data : " + airlines.flightNum + " + " + airlines.carrierCode);
   }
 
-  //Alena 26.03.26
 
   cp5 = new ControlP5(this);
 
-  for (int i = 0; i < data.getRowCount(); i++) { //alena now
+  for (int i = 0; i < data.getRowCount(); i++) { 
     String flightNum = data.getString(i, "MKT_CARRIER_FL_NUM");
     String carrier = data.getString(i, "MKT_CARRIER");
 
@@ -251,12 +244,12 @@ void setup()
     flightsByAirline.get(carrier).add(a);
   }
 
-  airlineDDL = cp5.addDropdownList("Airlines") //Alena 26.03.26
+  airlineDDL = cp5.addDropdownList("Airlines")
     .setPosition(550, 150)
     .setSize(200, 400);
 
 
-  flightDDL = cp5.addDropdownList("Flights") // Alena 26.03.26
+  flightDDL = cp5.addDropdownList("Flights")
     .setPosition(550, 200)
     .setSize(200, 200);
 
@@ -286,7 +279,6 @@ void draw()
 
   statusDDL.hide();
 
-  //Screens - Alyx Harmon - 10/3
 
   currentScreen.draw();
   if (currentScreen == screens.get(0))
@@ -311,7 +303,7 @@ airlineDDL.hide();
 
   if (currentScreen == screens.get(2))
   {
-    // status filter - alyx harmon 25/3 8.50pm
+    // status filter 
     statusDDL.show();
     airlineDDL.show();
     flightDDL.show();
@@ -351,17 +343,17 @@ airlineDDL.hide();
   }
 
 
-  // ensuring they display on the correct screen when the user selects a screen  17/03/2026 - Nora Holden
+  // ensuring they display on the correct screen when the user selects a screen 
   if (currentScreen == screens.get(2) || currentScreen == screens.get(3)  )
   {
     hs.update();
     hs.display();
     fill(255);
 
-    // implementing all filters to work together (simultaneously) - Nora Holden 30/03/2026 14:53pm
+    // implementing all filters to work together (simultaneously)
     ArrayList<Flights> tempList = new ArrayList<Flights>(flights); //new list to combine all aplicable filters
 
-    listToShow = flights; // logic to update flights when a filter is selected - Nora Holden 25/03/2026
+    listToShow = flights; // logic to update flights when a filter is selected 
 
     if (selectedStatus != -1)
     {
@@ -388,7 +380,6 @@ airlineDDL.hide();
 
 
 
-    //Alena - Scroll Logic 18.03.26
     float scrollPercent = hs.getPercent();
     int maxStart = listToShow.size() - visibleFlights;
 
@@ -400,7 +391,7 @@ airlineDDL.hide();
 
     int startIndex = int(scrollPercent * maxStart);
 
-    // draws flights - Nora Holden 16/03/2026
+    // draws flights 
     int y = 240;
     int x = 50;
     int a = 90;
@@ -433,10 +424,8 @@ airlineDDL.hide();
 
 
 /////////////////////////////////////////////////////////////////////MOUSE AND KEY////////////////////////////////////////////////////////
-//Screens - Alyx Harmon - 10/3
 void mousePressed()
 {
-  //alena
   firstMousePress = true;
 
   Button b = currentScreen.getButton(mouseX, mouseY);
@@ -454,7 +443,7 @@ void mousePressed()
   }
 
 
-  //slider for heat map - Liam McManus
+  //slider for heat map 
   if (currentScreen == screens.get(1))
   {
     updateSlider();
@@ -476,7 +465,7 @@ void mousePressed()
     }
   }
 
-  // searching flight dates - China Lynch
+  // searching flight dates
   if (currentScreen == screens.get(3)) {
 
     // start search box typing when mouse clicked 
@@ -496,7 +485,7 @@ void mousePressed()
     }
   }
 
-  //boolean added for airport - Nora Holden 26/03/2026 9:46am
+  //boolean added for airport 
   if (currentScreen == screens.get(2)) {
     if (mouseX > ax && mouseX < ax + aw && mouseY > ay && mouseY < ay + ah) {
       typingStart = false;
@@ -514,10 +503,10 @@ void mouseDragged()
   updateSlider();
 }
 
-//takes in written input - Nora Holden and China Lynch ( two methods merged )
+//takes in written input 
 void keyPressed() {
 
-  // when backspace pressed we delete - China Lynch
+  // when backspace pressed, delete
   if (key == BACKSPACE) {
     if (typingStart && startDateText.length() > 0)
       startDateText = startDateText.substring(0, startDateText.length() - 1);
@@ -530,7 +519,7 @@ void keyPressed() {
     return;
   }
 
-  // Only ints allowed and booleans - China Lynch (dates filter)
+  // Only ints allowed and booleans 
   if (key >= '0' && key <= '9') {
 
     if (typingStart && startDateText.length() < 8)
@@ -538,7 +527,7 @@ void keyPressed() {
 
     if (typingEnd && endDateText.length() < 8)
       endDateText += key;
-  } else // Airport filter on second screen text input - Nora Holden 24/03/2026
+  } else // Airport filter on second screen text input 
   {
     if (typingAirport)
     {
@@ -557,21 +546,19 @@ void keyPressed() {
     }
   }
 
-  // When both dates are 8 digits → start filter - China Lynch
+  // When both dates are 8 digits → start filter 
   if (currentScreen == screens.get(3)) {
     if (startDateText.length() == 8 && endDateText.length() == 8) {
       filterFlights();
     }
   }
 
-  //Nora Holden
   if (currentScreen == screens.get(2)) {
     airportFilter();
   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////FILTERS//////////////////////////////////////////////////////////////
-//China Lynch
 void drawSearchBars() {
   // Start search
   fill(typingStart ? 220 : 240);
@@ -591,7 +578,7 @@ void drawSearchBars() {
   noStroke();
 }
 
-// implement flight dates filter - China Lynch
+// implement flight dates filter 
 void drawFilterScreen() {
 
   // search bars
@@ -600,7 +587,7 @@ void drawFilterScreen() {
 }
 
 
-// Create date range filtering methods - China Lynch 24/03/26 3:30pm
+// Create date range filtering methods 
 // Adds flights to new ArrayList if in date range
 ArrayList<Flights> listOfDateMatch(int startDate, int endDate)
 {
@@ -615,7 +602,6 @@ ArrayList<Flights> listOfDateMatch(int startDate, int endDate)
   return dateMatch;
 }
 
-//China Lynch
 void filterFlights() {
 
   flightsDisplay.clear();
@@ -634,7 +620,7 @@ void filterFlights() {
 }
 
 
-// filters flights to be printed based on inputted text - Nora Holden 25/03/2026
+// filters flights to be printed based on inputted text 
 void airportFilter()
 {
   airportFilter.clear(); // resets the arraylist
@@ -648,10 +634,9 @@ void airportFilter()
   }
 }
 
-//Alena 26.03.26
 
 void customizeAirlineDDL() { 
-  airlineDDL.setColorForeground(color(0)); // border? 
+  airlineDDL.setColorForeground(color(0));
  airlineDDL.setColorBackground(color(255));   // main bar 183, 144, 212
   airlineDDL.setBackgroundColor(color(220, 200, 240));   // dropdown list (lighter)
   airlineDDL.setColorForeground(color(160, 120, 200));   // hover
@@ -668,7 +653,7 @@ void customizeAirlineDDL() {
 }
 
 void customizeFlightDDL() { 
-  flightDDL.setColorForeground(color(0)); // border?
+  flightDDL.setColorForeground(color(0)); 
   flightDDL.setColorBackground(color(255));   // same base   183, 144, 212
   flightDDL.setBackgroundColor(color(220, 200, 240));   // lighter list
   flightDDL.setColorForeground(color(160, 120, 200));   // hover
@@ -681,14 +666,12 @@ void customizeFlightDDL() {
 
 void controlEvent(ControlEvent theEvent) { 
   
-  //Alyx Harmon
    if (theEvent.isFrom(statusDDL))
   {
     selectedStatus = int(theEvent.getValue());
   }
 // if the user clicks a status, find the value they clicked & start filtering
   
-  //Alena 
 if (theEvent.getController().getName().equals("Airlines")) {
   int index = int(theEvent.getValue());
   String selectedCarrier = airlineCodes.get(index);
@@ -741,8 +724,8 @@ void filterByAirlineAndFlight(String airlineCode, String flightNum) {
 
 void setStatePostions()
 {
-  // State positions - Liam 18/03/25 10pm
-  //Updated new co-ordinates to fit map better - Liam 01/04/2026
+  // State positions 
+  //Updated new co-ordinates to fit map better
   // WEST
   statePositions.put("WA", new PVector(145, 160));
   statePositions.put("OR", new PVector(130, 210));
@@ -808,9 +791,9 @@ void setStatePostions()
 }
 
 
-// draw heatmap function - Liam 18/03/26 10pm
-// heatmap appearence updated and now also includes states with zero airports - Liam 19/03/2026 1:45pm
-// interactive features added to heatmap (hover over state for more info) - Liam 25/03/2026 9pm
+// draw heatmap function
+// heatmap appearence updated and now also includes states with zero airports 
+// interactive features added to heatmap (hover over state for more info)
 void drawHeatMap()
 {
 
@@ -906,7 +889,7 @@ void drawHeatMap()
 
   text("Airports per State Heatmap", 410, 120);
 
-  // gradient legend added - Liam 19/03/25 8:20 am
+  // gradient legend added 
   //draw map legend
   int legendX = 300;
   int legendY = 540;
@@ -940,7 +923,6 @@ void drawHeatMap()
   text("0", legendX, legendY + legendHeight + 15);
   text(maxValue, legendX + legendWidth, legendY + legendHeight + 15);
 
-  // slider added - Liam 26/03/2026 11pm
   float handleX = map(minAirports, 0, maxValue, legendX, legendX + legendWidth);
   float handleY = legendY;
 
