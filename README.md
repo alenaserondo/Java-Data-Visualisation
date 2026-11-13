@@ -21,6 +21,35 @@ An interaction Java application developed using Processing to visualise flight d
 - Adjust a slider to filter states on their number of airports
 
 ### User Interface 
-- Mul
+- Multiple screens
+- Navigation between different screens
+- Interaction buttons
+- Dropdown menus
+- Search fields
+
+### Software Used 
+- Java
+- Processing
+- ControlP5 library
+- CSV data processing
+
+### Concepts Demonstrated 
+- Object oriented programming
+- ArrayLists and HashMaps
+- Reading and processing external datasets
+- Data filtering and searching
+- Interactive graphical user interfaces
+- Data visulation
+
+## How to Run 
+1. Install Processing
+2. Install the ControlP5 library
+3. Download or clone this repository
+4. Open the main .pde file in Processing
+5. Ensure the required CSV files and images are in the project's data folder
+6. Run the sketch
+
+
+  
 
 
